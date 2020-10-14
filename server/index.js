@@ -50,7 +50,19 @@ app.post('/products/:productId', async (req, res) => {
     },
     attributes: {exclude: ['createdAt', 'updatedAt']}
   })
-    console.log(data);
+    res.send(data[0]);
+    res.end();
+})
+
+// update a specific product's data on the DB
+app.put('/products/:productId', async (req, res) => {
+  const data = await db.Product.upsert({
+    id: req.params.productId,
+    name: faker.commerce.product(),
+    price: (faker.commerce.price() % 40 + 10),
+    reviews: parseFloat(((Math.random() * 2) + 3).toFixed(2)),
+    reviewCount: Math.floor(Math.random() * 35)
+  })
     res.send(data[0]);
     res.end();
 })
