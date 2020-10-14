@@ -67,6 +67,18 @@ app.put('/products/:productId', async (req, res) => {
     res.end();
 })
 
+// delete a specific product's data from the DB
+app.delete('/products/:productId', async (req, res) => {
+  const data = await db.Product.destroy({
+    where: {
+      id: req.params.productId
+    },
+    attributes: {exclude: ['createdAt', 'updatedAt']}
+  })
+    console.log(data);
+    res.end();
+})
+
 
 // get all available stock using raw SQL query with inner joins
 app.get('/stock', async (req, res) => {
