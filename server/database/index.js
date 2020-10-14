@@ -1,7 +1,7 @@
 const {Sequelize, DataTypes} = require('sequelize');
 
 const db = new Sequelize(
-  'options', 'root', '', {
+  'options', 'root', 'password', {
     host: '127.0.0.1',
     // can try port number
     port: 3306,

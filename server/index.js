@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3002;
+const faker = require('faker');
 
 const db = require('./database/models');
 const data = require('./data/testData.js');
@@ -26,11 +27,7 @@ app.get('/products', async (req, res) => {
     } 
 })
 
-
-
-    
-
-  // getting a specific product's data from the DB
+// getting a specific product's data from the DB
 app.get('/products/:productId', async (req, res) => {
   const data = await db.Product.findAll({
     where: {
@@ -40,6 +37,23 @@ app.get('/products/:productId', async (req, res) => {
   })
     res.send(data[0]);
   })
+
+// store a specific product's data into the DB
+app.post('/products/:productId', async (req, res) => {
+  const data = await db.Product.findOrCreate({
+    where: {
+      id: req.params.productId,
+      name: faker.commerce.product(),
+      price: (faker.commerce.price() % 40 + 10),
+      reviews: parseFloat(((Math.random() * 2) + 3).toFixed(2)),
+      reviewCount: Math.floor(Math.random() * 35)
+    },
+    attributes: {exclude: ['createdAt', 'updatedAt']}
+  })
+    console.log(data);
+    res.send(data[0]);
+    res.end();
+})
 
 
 // get all available stock using raw SQL query with inner joins
@@ -59,7 +73,6 @@ app.get('/stock', async (req, res) => {
   }
 
   })
-
 
   // get a specific product's stock using raw SQL query with inner joins
 app.get('/stock/:productId', async (req, res) => {
@@ -93,26 +106,6 @@ app.get('/stores/:storeId', async (req, res) => {
   })
     res.send(data[0]);
   })
-
-
-
-  // ------------------ getting stock data using sequelize methods ----------------
-  // app.get('/stock', async (req, res) => {
-  //     const data = await db.Stock.findAll({
-  //   attributes: {exclude: ['createdAt', 'updatedAt']},
-  //   include: [{
-  //     model: db.Store,
-  //     attributes: {exclude: ['createdAt', 'updatedAt']},
-  //     required: false,
-  //   }, {
-  //         model: db.Product,
-  //         attributes: {exclude: ['createdAt', 'updatedAt']},
-  //         require: false
-  //       }]
-  // })
-  //     await res.send(data);
-  //   })
-
 
   app.listen(port, () => {
     console.log(`app listening at http://localhost:${port}`)
