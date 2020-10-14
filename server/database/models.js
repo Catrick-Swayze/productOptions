@@ -20,6 +20,7 @@ const Product = db.define('Product', {
     defaultValue: 0
   }
 })
+
 const Store = db.define('Store', {
   location: {
     type: DataTypes.STRING,
