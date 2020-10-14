@@ -75,7 +75,6 @@ app.delete('/products/:productId', async (req, res) => {
     },
     attributes: {exclude: ['createdAt', 'updatedAt']}
   })
-    console.log(data);
     res.end();
 })
 
