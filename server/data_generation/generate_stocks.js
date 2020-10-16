@@ -1,13 +1,5 @@
-const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-const csvWriter = createCsvWriter({
-    path: './csv/Stocks.csv',
-    header: [
-        {id: 'color', title: 'COLOR'},
-        {id: 'colorUrl', title: 'COLORURL'},
-        {id: 'size', title: 'SIZE'},
-        {id: 'qty', title: 'QTY'}
-    ]
-});
+const fs = require('fs');
+const { performance } = require('perf_hooks');
 
 const colors = [
     ['White', 'https://imgur.com/xvJ98fe.png'],
@@ -20,27 +12,46 @@ const colors = [
 
 const sizes = ['S', 'M', 'L', 'XL', 'XXL', '2XL'];
 
-const stocks = [];
+const writer = fs.createWriteStream('./csv/Stocks.csv');
+writer.write('Color,ColorUrl,Size,Quantity\n');
 
-let entries = 10;
+let start = performance.now();
 
-while (entries > 0) {
-    for (let i = 0; i < colors.length; i++) {
-        for (let j = 0; j < sizes.length; j++) {
-            let quantity = Math.floor(Math.random() * 5);
-            let stock = {
-                color: colors[i][0],
-                colorUrl: colors[i][1],
-                size: sizes[j],
-                qty: quantity
+const writeStocks = (writerFunc, callback) => {
+    let i = 10000000;
+    const write = () => {
+        let ok = true;
+        do {
+            i--;
+            let data = ``;
+            for (let c = 0; c < colors.length; c++) {
+                for (let s = 0; s < sizes.length; s++) {
+                    let quantity = Math.floor(Math.random() * 5);
+                    data += `${colors[c][0]},${colors[c][1]},${sizes[s]},${quantity}\n`;
+                }
             }
-            stocks.push(stock);
+            if (i === 0) {
+                writer.write(data, callback);
+            } else {
+                ok = writer.write(data);
+            }
+        } while (i > 0 && ok);
+        if (i > 0) {
+            writer.once('drain', write);
         }
     }
-    entries--;
-}
+    write();
+};
 
-csvWriter.writeRecords(stocks)
-    .then(() => {
-        console.log(`Wrote ${stocks.length} stocks!`);
-    });
+writeStocks(writer, (error, callback) => {
+    if (error) {
+        console.log(`Error: ${error}`);
+    } else {
+        console.log(`Data generation complete!`);
+    }
+});
+
+let end = performance.now();
+
+const time = end - start;
+console.log(time);
