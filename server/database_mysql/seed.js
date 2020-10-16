@@ -99,7 +99,7 @@ const faker = require('faker');
     for (var st = 0; st < stores.length; st++) {
       var fakeStore = await Store.findOne({ where: {location: stores[st]} });
       // adjust max p to change number of products
-      for (var p = 0; p < 10; p++) {
+      for (var p = 0; p < 94; p++) {
         const fakeProduct = await Product.create({
         name: faker.commerce.product(),
         price: (faker.commerce.price() % 40 + 10),
