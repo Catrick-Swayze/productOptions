@@ -13,7 +13,7 @@ const colors = [
 const sizes = ['S', 'M', 'L', 'XL', 'XXL', '2XL'];
 
 const writer = fs.createWriteStream('./csv/Stocks.csv');
-writer.write('Color,ColorUrl,Size,Quantity\n');
+writer.write('Color,ColorUrl,Size,Quantity,ProductId,StoreId\n');
 
 let start = performance.now();
 
@@ -24,10 +24,12 @@ const writeStocks = (writerFunc, callback) => {
         do {
             i--;
             let data = ``;
-            for (let c = 0; c < colors.length; c++) {
-                for (let s = 0; s < sizes.length; s++) {
-                    let quantity = Math.floor(Math.random() * 5);
-                    data += `${colors[c][0]},${colors[c][1]},${sizes[s]},${quantity}\n`;
+            for (let store = 5; store > 1; store--) {
+                for (let c = 0; c < colors.length; c++) {
+                    for (let s = 0; s < sizes.length; s++) {
+                        let quantity = Math.floor(Math.random() * 5);
+                        data += `${colors[c][0]},${colors[c][1]},${sizes[s]},${quantity},${i},${store}\n`;
+                    }
                 }
             }
             if (i === 0) {
@@ -35,8 +37,8 @@ const writeStocks = (writerFunc, callback) => {
             } else {
                 ok = writer.write(data);
             }
-        } while (i > 0 && ok);
-        if (i > 0) {
+        } while (i > 1 && ok);
+        if (i > 1) {
             writer.once('drain', write);
         }
     }
