@@ -3,11 +3,11 @@ const app = express();
 const port = 3002;
 const faker = require('faker');
 
-const db = require('./database/models');
+const db = require('./database_mysql/models');
 const data = require('./data/testData.js');
 const path = require('path');
 const { QueryTypes } = require('sequelize');
-const sequelize = require('./database/index.js');
+const sequelize = require('./database_mysql/index.js');
 const cors = require('cors');
 
 app.use(cors());

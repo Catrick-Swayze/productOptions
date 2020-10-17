@@ -5,16 +5,20 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "seed": "node database/seed.js",
+    "seed": "node database_mysql/seed.js",
     "test": "jest"
   },
   "dependencies": {
     "axios": "^0.20.0",
     "cors": "^2.8.5",
+    "csv-write-stream": "^2.0.0",
+    "csv-writer": "^1.6.0",
     "express": "^4.17.1",
     "faker": "^5.1.0",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.4",
+    "pg": "^8.4.1",
+    "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
