@@ -17,6 +17,8 @@ client.connect((error) => {
     }
 });
 
+// -------------------- Products Query -------------------->
+
 //get request
 const getProduct = (id) => {
     let query = `SELECT * FROM products WHERE id = ${id};`;
@@ -24,7 +26,7 @@ const getProduct = (id) => {
     client.query(query)
         .then((response) => {
             let end = performance.now();
-            console.log(`Query time:`, end - start);
+            console.log(`GET query time:`, end - start);
         })
         .catch((error) => {
             console.log(error);
@@ -78,6 +80,136 @@ module.exports = {
     postProduct,
     deleteProduct,
     updateProduct
+}
+
+// -------------------- Stores Query -------------------->
+
+//get request 
+const getStore = (id) => {
+    let query = `SELECT * FROM products WHERE id=${id};`;
+    let start = performance.now();
+    client.query(query)
+        .then((response) => {
+            let end = performance.now();
+            console.log(`GET query time:`, end - start);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+};
+
+//post request
+const postStore = (id, location) => {
+    let query = `INSERT INTO stores (id, location) VALUES (${id}, '${location}');`;
+    let start = performance.now();
+    client.query(query)
+        .then((reponse) => {
+            let end = performance.now();
+            console.log(`POST query time:`, end - time);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+};
+
+//delete request
+const deleteStore = (id) => {
+    let query = `DELETE FROM stores WHERE id=${id};`;
+    let start = performance.now();
+    client.query(query)
+        .then((response) => {
+            let end = performance.now();
+            console.log(`DELETE query time:`, end - start);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
+//update request
+const updateStore = (id, location) => {
+    let query = `UPDATE stores SET location='${location}' WHERE id=${id}`;
+    let start = performance.now();
+    client.query(query)
+        .then((response) => {
+            let end = performance();
+            console.log(`UPDATE query time:`, end - start);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+};
+
+module.exports = {
+    getStore,
+    postStore,
+    deleteStore,
+    updateStore
+}
+
+// -------------------- Stocks Query -------------------->
+
+//get request 
+const getStock = (id) => {
+    let query = `SELECT * FROM stocks WHERE id=${id};`;
+    let start = performance.now();
+    client.query(query)
+        .then((response) => {
+            let end = performance.now();
+            console.log(`GET query time:`, end - start);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+};
+
+//post request
+const postStock = (id, color, colorUrl, size, quantity, productId) => {
+    let query = `INSERT INTO stocks (id, color, colorurl, size, quantity, productid) VALUES (${id}, '${color}', '${colorUrl}', '${size}', ${quantity}, ${productId});`;
+    let start = performance.now();
+    client.query(query)
+        .then((response) => {
+            let end = performance.now();
+            console.log(`POST query time:`, end - time);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+};
+
+//delete request 
+const deleteStock = (id) => {
+    let query = `DELETE FROM stocks WHERE id=${id};`;
+    let start = performance.now();
+    client.query(query)
+        .then((response) => {
+            let end = performance.now();
+            console.log(`DELETE query time:`, end - start);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
+//update request
+const updateStock = (id, color, colorUrl, size, quantity, productId) => {
+    let query = `UPDATE stocks SET color='${color}', colorurl='${colorUrl}', size='${size}', quantity=${quantity}, productId=${productId} WHERE id=${id};`;
+    let start = performance.now();
+    client.query(query)
+        .then((response) => {
+            let end = performance.now();
+            console.log(`UPDATE query time:`, end - start);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+};
+
+module.exports = {
+    getStock,
+    postStock,
+    deleteStock,
+    updateStock
 }
 
 getProduct(1);
