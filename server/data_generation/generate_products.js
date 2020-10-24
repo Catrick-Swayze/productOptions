@@ -3,7 +3,7 @@ const faker = require('faker');
 const { performance } = require('perf_hooks');
 
 const writer = fs.createWriteStream('./csv/Products.csv');
-writer.write('Name,Price,Reviews,ReviewCount\n');
+writer.write('Id,Name,Price,Reviews,ReviewCount\n');
 
 let start = performance.now();
 
@@ -18,7 +18,7 @@ const writeProducts = (writerFunc, callback) => {
             let price = (faker.commerce.price() % 40 + 10);
             let reviews = parseFloat(((Math.random() * 2) + 3).toFixed(2));
             let reviewsCount = Math.floor(Math.random() * 35);
-            const data = `${name},${price},${reviews},${reviewsCount}\n`;
+            const data = `${i},${name},${price},${reviews},${reviewsCount}\n`;
             if (i === 0) {
                 writer.write(data, callback);
             } else {

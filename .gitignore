@@ -24,3 +24,6 @@ coverage
 build/
 client/public/dist/bundle.js
 *.csv
+
+#new relic
+newrelic.js

@@ -1,10 +1,12 @@
-const cassandra = require('cassandra-driver');
+const { Client } = require('pg');
 const { performance } = require('perf_hooks');
 
-const client = new cassandra.Client({
-    contactPoints: ['127.0.0.1:9042'],
-    localDataCenter: 'datacenter1',
-    keyspace: 'productoptions'
+const client = new Client({
+    user: 'postgres',
+    host: 'localhost',
+    port: 5432,
+    password: '642459986Jw',
+    database: 'productoptions'
 });
 
 client.connect((error) => {
@@ -19,9 +21,9 @@ client.connect((error) => {
 
 //get request
 const getProduct = (id) => {
-    let query = `SELECT * FROM products WHERE id=${id};`;
+    let query = `SELECT * FROM products WHERE id = ${id};`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`GET query time:`, end - start);
@@ -35,7 +37,7 @@ const getProduct = (id) => {
 const postProduct = (id, name, price, reviews, reviewCount) => {
     let query = `INSERT INTO products (id, name, price, reviews, reviewcount) VALUES (${id}, '${name}', ${price}, ${reviews}, ${reviewCount});`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`POST query time:`, end - start);
@@ -49,7 +51,7 @@ const postProduct = (id, name, price, reviews, reviewCount) => {
 const deleteProduct = (id) => {
     let query = `DELETE FROM products WHERE id=${id};`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`DELETE query time:`, end - start);
@@ -63,7 +65,7 @@ const deleteProduct = (id) => {
 const updateProduct = (id, name, price, reviews, reviewCount) => {
     let query = `UPDATE products SET name='${name}', price=${price}, reviews=${reviews}, reviewcount=${reviewCount} WHERE id=${id};`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`UPDATE query time:`, end - start);
@@ -73,20 +75,13 @@ const updateProduct = (id, name, price, reviews, reviewCount) => {
         })
 };
 
-module.exports = {
-    getProduct,
-    postProduct,
-    deleteProduct,
-    updateProduct
-}
-
 // -------------------- Stores Query -------------------->
 
 //get request 
 const getStore = (id) => {
     let query = `SELECT * FROM products WHERE id=${id};`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`GET query time:`, end - start);
@@ -100,7 +95,7 @@ const getStore = (id) => {
 const postStore = (id, location) => {
     let query = `INSERT INTO stores (id, location) VALUES (${id}, '${location}');`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((reponse) => {
             let end = performance.now();
             console.log(`POST query time:`, end - time);
@@ -114,7 +109,7 @@ const postStore = (id, location) => {
 const deleteStore = (id) => {
     let query = `DELETE FROM stores WHERE id=${id};`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`DELETE query time:`, end - start);
@@ -128,7 +123,7 @@ const deleteStore = (id) => {
 const updateStore = (id, location) => {
     let query = `UPDATE stores SET location='${location}' WHERE id=${id}`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance();
             console.log(`UPDATE query time:`, end - start);
@@ -138,20 +133,13 @@ const updateStore = (id, location) => {
         })
 };
 
-module.exports = {
-    getStore,
-    postStore,
-    deleteStore,
-    updateStore
-}
-
 // -------------------- Stocks Query -------------------->
 
 //get request 
 const getStock = (id) => {
     let query = `SELECT * FROM stocks WHERE id=${id};`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`GET query time:`, end - start);
@@ -165,7 +153,7 @@ const getStock = (id) => {
 const postStock = (id, color, colorUrl, size, quantity, productId) => {
     let query = `INSERT INTO stocks (id, color, colorurl, size, quantity, productid) VALUES (${id}, '${color}', '${colorUrl}', '${size}', ${quantity}, ${productId});`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`POST query time:`, end - time);
@@ -179,7 +167,7 @@ const postStock = (id, color, colorUrl, size, quantity, productId) => {
 const deleteStock = (id) => {
     let query = `DELETE FROM stocks WHERE id=${id};`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`DELETE query time:`, end - start);
@@ -193,7 +181,7 @@ const deleteStock = (id) => {
 const updateStock = (id, color, colorUrl, size, quantity, productId) => {
     let query = `UPDATE stocks SET color='${color}', colorurl='${colorUrl}', size='${size}', quantity=${quantity}, productId=${productId} WHERE id=${id};`;
     let start = performance.now();
-    client.execute(query)
+    client.query(query)
         .then((response) => {
             let end = performance.now();
             console.log(`UPDATE query time:`, end - start);
@@ -204,13 +192,17 @@ const updateStock = (id, color, colorUrl, size, quantity, productId) => {
 };
 
 module.exports = {
+    getProduct,
+    postProduct,
+    deleteProduct,
+    updateProduct,
+    getStore,
+    postStore,
+    deleteStore,
+    updateStore,
     getStock,
     postStock,
     deleteStock,
     updateStock
 }
 
-getProduct(1);
-postProduct(1000001, 'testing123', 4.99, 3.5, 20);
-deleteProduct(1000001);
-updateProduct(1000000, 'testing123', 4.99, 3.5, 20);

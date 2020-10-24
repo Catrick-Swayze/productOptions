@@ -3,22 +3,22 @@ const fs = require('fs');
 const stores = ['Boulder', 'Longmont', 'Superior', 'Westminster', 'Aurora'];
 
 const writer = fs.createWriteStream('./csv/Stores.csv');
-writer.write('Location\n');
+writer.write('Id,Location\n');
 
 const writeStores = (writerFunc, callback) => {
-    let i = stores.length;
+    let i = 0;
     const write = () => {
         let ok = true;
         do {
-            i--;
             let store = stores[i];
-            let data = `${store}\n`;
-            if (i === 0) {
+            let data = `${i},${store}\n`;
+            i++;
+            if (i === stores.length) {
                 writer.write(data, callback);
             } else {
                 ok = writer.write(data);
             }
-        } while (i > 0 && ok);
+        } while (i < stores.length && ok);
         if (i > 0) {
             writer.once('drain', write);
         }
