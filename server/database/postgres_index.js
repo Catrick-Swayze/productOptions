@@ -3,7 +3,7 @@ const { performance } = require('perf_hooks');
 
 const client = new Client({
     user: 'postgres',
-    host: 'localhost',
+    host: '35.173.133.150',
     port: 5432,
     password: '642459986Jw',
     database: 'productoptions'
