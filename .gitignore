@@ -27,3 +27,7 @@ client/public/dist/bundle.js
 
 #new relic
 newrelic.js
+
+#AWS key
+*.ppk
+*.pem
