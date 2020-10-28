@@ -25,9 +25,6 @@ build/
 client/public/dist/bundle.js
 *.csv
 
-#new relic
-newrelic.js
-
 #AWS key
 *.ppk
 *.pem
