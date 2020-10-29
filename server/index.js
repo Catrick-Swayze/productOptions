@@ -16,8 +16,8 @@ app.get('/products/:productId', async (req, res) => {
     res.send(data);
 });
 
-app.get('/loaderio-4081e80814a4a173d1cfb16d7c67d17c', (req, res) => {
-    res.sendFile(__dirname + '/loaderio-4081e80814a4a173d1cfb16d7c67d17c.txt');
+app.get('/loaderio-0f1cf11ff85d1772d1cd33f594208a33', (req, res) => {
+    res.sendFile(__dirname + '/loaderio-0f1cf11ff85d1772d1cd33f594208a33.txt');
 });
 
 app.listen(port, () => {
