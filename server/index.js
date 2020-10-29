@@ -16,6 +16,10 @@ app.get('/products/:productId', async (req, res) => {
     res.send(data);
 });
 
+app.get('/loaderio-a6e644ebf2bb00c6f4b6643b5380b757', (req, res) => {
+    res.sendFile(__dirname + '/loaderio-a6e644ebf2bb00c6f4b6643b5380b757.txt');
+});
+
 app.listen(port, () => {
     console.log(`app listening at http://localhost:${port}`);
 });
